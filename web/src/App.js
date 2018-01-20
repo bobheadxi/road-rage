@@ -8,16 +8,18 @@ class App extends Component {
     this.props = props;
     this.state = {
       lat: 49.2827,
-      long: 123.1207
+      long: -123.1207
     }
 
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}`);
+    const res = await response.json();
+    console.log(res);
   }
 
   handleChange(e, l) {
