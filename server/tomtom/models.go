@@ -9,7 +9,7 @@ type FlowSegmentData struct {
 	FreeFlowSpeed      int         `json:"freeFlowSpeed"`
 	CurrentTravelTime  int         `json:"currentTravelTime"`
 	FreeFlowTravelTime int         `json:"freeFlowTravelTime"`
-	Confidence         float32     `json:"confidence"`
+	Confidence         float64     `json:"confidence"`
 	Coordinates        Coordinates `json:"coordinates"`
 }
 
@@ -18,8 +18,8 @@ type Coordinates struct {
 }
 
 type Coordinate struct {
-	Longitude float32 `json:"latitude"`
-	Latitude  float32 `json:"longitude"`
+	Longitude float64 `json:"latitude"`
+	Latitude  float64 `json:"longitude"`
 }
 
 /*

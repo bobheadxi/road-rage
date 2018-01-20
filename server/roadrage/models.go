@@ -3,7 +3,8 @@ package roadrage
 import "github.com/bobheadxi/road-rage/server/tomtom"
 
 type RoadRageMap struct {
-	Roads []road `json:"rooads"`
+	Center tomtom.Coordinate `json:"center"`
+	Roads  []road            `json:"roads"`
 }
 
 type road struct {
