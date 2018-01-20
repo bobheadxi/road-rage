@@ -25,6 +25,9 @@ func (s *Server) Run(port string) {
 }
 
 func (s *Server) buildGame(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 	lats, ok := req.URL.Query()["lat"]
 	if !ok || len(lats) < 1 {
 		http.Error(w, "Need latitude", http.StatusBadRequest)
