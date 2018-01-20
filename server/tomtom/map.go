@@ -6,12 +6,11 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
 const (
-	baseURL = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?key=%s&point=%f,%f"
+	baseURL = "https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?key=%s&point=%s,%s"
 )
 
 type API struct {
@@ -26,7 +25,7 @@ func New() *API {
 	}
 }
 
-func (api *API) GetSegmentAtCoordinate(lat float32, lon float32) (*FlowSegmentData, error) {
+func (api *API) GetSegmentAtCoordinate(lat string, lon string) (*FlowSegmentData, error) {
 	request := fmt.Sprintf(baseURL, api.key, lat, lon)
 	resp, err := api.makeRequest("GET", request, nil)
 
@@ -35,7 +34,6 @@ func (api *API) GetSegmentAtCoordinate(lat float32, lon float32) (*FlowSegmentDa
 	}
 	defer resp.Body.Close()
 
-	log.Print(resp.StatusCode)
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New("Not okay :(")
 	}
@@ -44,7 +42,6 @@ func (api *API) GetSegmentAtCoordinate(lat float32, lon float32) (*FlowSegmentDa
 	if err != nil {
 		return nil, err
 	}
-	log.Print(string(respBody))
 
 	segment := &TomTomResp{}
 	err = json.Unmarshal(respBody, segment)
