@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/bobheadxi/road-rage/server/tomtom"
 )
@@ -58,12 +59,23 @@ func (s *Server) buildMap(lat string, lon string) (*RoadRageMap, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	floatLat, err := strconv.ParseFloat(lat, 64)
+	if err != nil {
+		return nil, err
+	}
+	floatLon, err := strconv.ParseFloat(lon, 74)
+	if err != nil {
+		return nil, err
+	}
+	center := tomtom.Coordinate{Longitude: floatLat, Latitude: floatLon}
+
 	roads := []road{
 		road{
 			Density:     8.12,
-			Coordinates: seg.Coordinates.Points,
+			Coordinates: mapCoords(seg.Coordinates.Points, makeRelative, center),
 		},
 	}
-	roadmap := &RoadRageMap{Roads: roads}
+	roadmap := &RoadRageMap{Center: center, Roads: roads}
 	return roadmap, nil
 }
