@@ -43,7 +43,7 @@ class App extends Component {
           <input type="text" name="long" placeholder="enter longitude" value={this.state.long} onChange={(e) => this.handleChange(e, 'long')} />
           <input type="submit" name="submit" onClick={this.handleChange} />
         </form>
-        <div className="Board-wrapper" style={{ width: 500, height: 500 }}>
+        <div className="Board-wrapper" style={{ width: 400, height: 400 }}>
           <CanvasComponent />
         </div>
       </div>
@@ -55,17 +55,15 @@ class CanvasComponent extends React.Component {
   componentDidMount() {
       this.updateCanvas();
   }
+
   updateCanvas() {
       const ctx = this.refs.canvas.getContext('2d');
-      ctx.fillRect(0,0, 400, 400); // background hack lol
-      ctx.moveTo(0,0);
-      ctx.strokeStyle = 'orange';
-      ctx.lineTo(200,100);
-      ctx.stroke();
+      ctx.fillRect(0, 0, 400, 400); // background hack lol
   }
+
   render() {
       return (
-          <canvas ref="canvas" width={400} height={400} />
+          <canvas className="Board" ref="canvas" width={400} height={400} />
       );
   }
 }
