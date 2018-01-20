@@ -54,34 +54,46 @@ class App extends Component {
 }
 
 class CanvasComponent extends React.Component {
+  canvas;
+
+  constructor(props) {
+    super(props);
+    this.props = props;
+
+    this.initCanvas = this.initCanvas.bind(this);
+    this.updateCanvas = this.updateCanvas.bind(this);
+    this.drawSegment = this.drawSegment.bind(this);
+  }
+  
   componentDidMount() {
+      this.canvas = this.refs.canvas.getContext('2d');
+      this.initCanvas();
       this.updateCanvas();
   }
 
+  initCanvas() {
+    this.canvas.fillRect(0, 0, 400, 400);
+    this.canvas.strokeStyle = 'orange';
+  }
+
+  drawSegment(coordinate) {
+    this.canvas.lineTo(coordinate.lat, coordinate.long);
+    this.canvas.moveTo(coordinate.lat, coordinate.long);
+    this.canvas.stroke();
+  }
+
   updateCanvas() {
-      const ctx = this.refs.canvas.getContext('2d');
-      ctx.fillRect(0, 0, 400, 400); // background hack lol
-      ctx.strokeStyle = 'orange';
+    const data = [{lat: 200, long: 300}, {lat: 0, long: 100}, {lat: 300, long: 150}, {lat: 300, long: 350}, {lat: 100, long: 350}];
 
-      let data = [{lat: 200, long: 300}, {lat: 0, long: 100}, {lat: 300, long: 2}];
-
-  for (let i = 0; i < data.length; i++) { 
-    let points = data[i];
-    let lat = points.lat;
-    console.log("lat", lat);
-    let long = points.long;
-    console.log("long", long);
-    ctx.lineTo(lat, long);
-    ctx.moveTo(lat, long);
-    ctx.stroke();
-        
-}    
+    for (let i = 0; i < data.length; i++) { 
+      this.drawSegment(data[i]);
+    }
   }
 
   render() {
-      return (
-          <canvas className="Board" ref="canvas" width={400} height={400} />
-      );
+    return (
+      <canvas className="Board" ref="canvas" width={400} height={400} />
+    );
   }
 }
 
