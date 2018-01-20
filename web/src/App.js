@@ -38,7 +38,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, enter a set of coordinates.
         </p>
-        <form onSubmit={this.onSubmit}>
+        <form style={{ marginBottom: 20 }} onSubmit={this.onSubmit}>
           <input type="text" name="lat" placeholder="enter latitude" value={this.state.lat} onChange={(e) => this.handleChange(e, 'lat')} />
           <input type="text" name="long" placeholder="enter longitude" value={this.state.long} onChange={(e) => this.handleChange(e, 'long')} />
           <input type="submit" name="submit" onClick={this.handleChange} />

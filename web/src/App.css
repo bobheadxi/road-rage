@@ -30,9 +30,4 @@
 .Board-wrapper {
   background-color: lightblue;
   margin: auto;
-  display: flex;
-}
-
-.Board {
-  align-self: 'center';
 }
