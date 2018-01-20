@@ -41,14 +41,29 @@ func (s *Server) buildGame(w http.ResponseWriter, req *http.Request) {
 	}
 	lon := lons[0]
 
-	seg, err := s.api.GetSegmentAtCoordinate(lat, lon)
+	roadmap, err := s.buildMap(lat, lon)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	segUnmarshall, _ := json.Marshal(seg)
+	unmarshalled, _ := json.Marshal(roadmap)
 	w.WriteHeader(http.StatusOK)
-	w.Write(segUnmarshall)
+	w.Write(unmarshalled)
+}
+
+func (s *Server) buildMap(lat string, lon string) (*RoadRageMap, error) {
+	seg, err := s.api.GetSegmentAtCoordinate(lat, lon)
+	if err != nil {
+		return nil, err
+	}
+	roads := []road{
+		road{
+			Density:     8.12,
+			Coordinates: seg.Coordinates.Points,
+		},
+	}
+	roadmap := &RoadRageMap{Roads: roads}
+	return roadmap, nil
 }

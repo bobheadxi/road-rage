@@ -43,7 +43,7 @@ func (api *API) GetSegmentAtCoordinate(lat string, lon string) (*FlowSegmentData
 		return nil, err
 	}
 
-	segment := &TomTomResp{}
+	segment := &tomTomResp{}
 	err = json.Unmarshal(respBody, segment)
 	if err != nil {
 		return nil, err

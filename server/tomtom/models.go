@@ -1,6 +1,6 @@
 package tomtom
 
-type TomTomResp struct {
+type tomTomResp struct {
 	FlowSegmentData FlowSegmentData `json:"flowSegmentData"`
 }
 
