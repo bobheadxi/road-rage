@@ -18,9 +18,9 @@ class App extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}`);
+    const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}&radius=0.1&interval=0.05`);
     const res = await response.json();
-    this.setState({ roads: res.rooads });
+    this.setState({ roads: res.roads }, () => console.log('got data'));
   }
 
   handleChange(e, l) {
@@ -77,17 +77,18 @@ class CanvasComponent extends React.Component {
     console.log('updating...');
 
     roads.forEach((road) => {
-      const coordinates = [
+      const coordinates = road.coordinates || [
         { latitude: 50, longitude: 200 },
         { latitude: 250, longitude: 200 },
         { latitude: 250, longitude: 10 },
         { latitude: 350, longitude: 10 },
         { latitude: 350, longitude: 300 },
         { latitude: 50, longitude: 300 }];
-  
+      
       coordinates.forEach((c) => {
-        ctx.lineTo(c.latitude, c.longitude);
-        ctx.moveTo(c.latitude, c.longitude);
+        console.log('drawing... ', 200 + c.latitude, 200 + c.longitude);
+        ctx.lineTo(200 + c.latitude, 200 + c.longitude);
+        ctx.moveTo(200 + c.latitude, 200 + c.longitude);
         ctx.stroke();
       });
     });
