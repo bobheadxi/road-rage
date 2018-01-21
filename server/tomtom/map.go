@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 const (
@@ -28,14 +29,13 @@ func New() *API {
 func (api *API) GetSegmentAtCoordinate(lat string, lon string) (*FlowSegmentData, error) {
 	request := fmt.Sprintf(baseURL, api.key, lat, lon)
 	resp, err := api.makeRequest("GET", request, nil)
-
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("Not okay :(")
+		return nil, errors.New("Not okay :( " + strconv.Itoa(resp.StatusCode))
 	}
 
 	respBody, err := ioutil.ReadAll(resp.Body)

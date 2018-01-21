@@ -18,8 +18,8 @@ type Coordinates struct {
 }
 
 type Coordinate struct {
-	Longitude float64 `json:"latitude"`
-	Latitude  float64 `json:"longitude"`
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
 }
 
 /*
