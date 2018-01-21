@@ -8,7 +8,8 @@ class App extends Component {
     this.props = props;
     this.state = {
       lat: 49.2827,
-      long: -123.1207
+      long: -123.1207,
+      roads: []
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -19,7 +20,7 @@ class App extends Component {
     e.preventDefault();
     const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}`);
     const res = await response.json();
-    console.log(res);
+    this.setState({ roads: res.rooads });
   }
 
   handleChange(e, l) {
@@ -46,7 +47,7 @@ class App extends Component {
           <input type="submit" name="submit" onClick={this.handleChange} />
         </form>
         <div className="Board-wrapper" style={{ width: 400, height: 400 }}>
-          <CanvasComponent />
+          <CanvasComponent roads={this.state.roads} />
         </div>
       </div>
     );
@@ -54,19 +55,49 @@ class App extends Component {
 }
 
 class CanvasComponent extends React.Component {
+  canvas;
+
+  constructor(props) {
+    super(props);
+    this.props = props;
+  }
+  
   componentDidMount() {
-      this.updateCanvas();
+      this.canvas = this.refs.canvas.getContext('2d');
+      this.initCanvas();
   }
 
-  updateCanvas() {
-      const ctx = this.refs.canvas.getContext('2d');
-      ctx.fillRect(0, 0, 400, 400); // background hack lol
+  initCanvas() {
+    this.canvas.fillRect(0, 0, 400, 400);
+    this.canvas.strokeStyle = 'orange';
+  }
+
+  updateCanvas(ctx, roads) {
+    if (!ctx || !roads) return;
+    console.log('updating...');
+
+    roads.forEach((road) => {
+      const coordinates = [
+        { latitude: 50, longitude: 200 },
+        { latitude: 250, longitude: 200 },
+        { latitude: 250, longitude: 10 },
+        { latitude: 350, longitude: 10 },
+        { latitude: 350, longitude: 300 },
+        { latitude: 50, longitude: 300 }];
+  
+      coordinates.forEach((c) => {
+        ctx.lineTo(c.latitude, c.longitude);
+        ctx.moveTo(c.latitude, c.longitude);
+        ctx.stroke();
+      });
+    });
   }
 
   render() {
-      return (
-          <canvas className="Board" ref="canvas" width={400} height={400} />
-      );
+    this.updateCanvas(this.canvas, this.props.roads);
+    return (
+      <canvas className="Board" ref="canvas" width={400} height={400} />
+    );
   }
 }
 
