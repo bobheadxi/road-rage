@@ -18,7 +18,8 @@ class App extends Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}&radius=0.1&interval=0.05`);
+    console.log('getting data...')
+    const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}&radius=0.03&interval=0.0005`);
     const res = await response.json();
     this.setState({ roads: res.roads }, () => console.log('got data'));
   }
@@ -85,12 +86,14 @@ class CanvasComponent extends React.Component {
         { latitude: 350, longitude: 300 },
         { latitude: 50, longitude: 300 }];
       
+      ctx.beginPath();
       coordinates.forEach((c) => {
         console.log('drawing... ', 200 + c.latitude, 200 + c.longitude);
-        ctx.lineTo(200 + c.latitude, 200 + c.longitude);
-        ctx.moveTo(200 + c.latitude, 200 + c.longitude);
+        ctx.lineTo(200 + c.latitude * 5, 200 + c.longitude * 5);
+        ctx.moveTo(200 + c.latitude * 5, 200 + c.longitude * 5);
         ctx.stroke();
       });
+      ctx.closePath();
     });
   }
 
