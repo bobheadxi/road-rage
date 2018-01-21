@@ -69,7 +69,7 @@ func (s *Server) buildMap(lat float64, lon float64, radius float64, interval flo
 		}
 		roads = append(roads, road{
 			Density:     8.16,
-			Coordinates: mapCoords(seg.Coordinates.Points, makeRelative, center),
+			Coordinates: mapCoords(seg.Coordinates.Points, makeRelative, &center),
 		})
 	}
 
