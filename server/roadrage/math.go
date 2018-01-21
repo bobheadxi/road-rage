@@ -1,6 +1,7 @@
 package roadrage
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/bobheadxi/road-rage/server/tomtom"
@@ -20,7 +21,7 @@ func makeRelative(point tomtom.Coordinate, center *tomtom.Coordinate) tomtom.Coo
 	return point
 }
 
-func generateGrid(center tomtom.Coordinate, radius float64, interval float64) ([]string, []string) {
+func generateGrid(center *tomtom.Coordinate, radius float64, interval float64) ([]string, []string) {
 	maxLat := center.Latitude + radius
 	minLat := center.Latitude - radius
 	maxLon := center.Longitude + radius
@@ -36,4 +37,10 @@ func generateGrid(center tomtom.Coordinate, radius float64, interval float64) ([
 	}
 
 	return lats, lons
+}
+
+func calculateDensity(segment *tomtom.FlowSegmentData) float64 {
+	density := segment.FreeFlowTravelTime / segment.CurrentTravelTime
+	log.Print(strconv.FormatFloat(density, 'f', 6, 64))
+	return density
 }

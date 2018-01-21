@@ -8,6 +8,6 @@ type RoadRageMap struct {
 }
 
 type road struct {
-	Density     float32             `json:"density"`
+	Density     float64             `json:"density"`
 	Coordinates []tomtom.Coordinate `json:"coordinates"`
 }
