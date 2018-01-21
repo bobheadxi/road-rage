@@ -8,7 +8,8 @@ class App extends Component {
     this.props = props;
     this.state = {
       lat: 49.2827,
-      long: -123.1207
+      long: -123.1207,
+      roads: []
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -19,7 +20,7 @@ class App extends Component {
     e.preventDefault();
     const response = await fetch(`http://localhost:8000/build_game?lat=${this.state.lat}&lon=${this.state.long}`);
     const res = await response.json();
-    console.log(res);
+    this.setState({ roads: res.rooads });
   }
 
   handleChange(e, l) {
@@ -46,7 +47,7 @@ class App extends Component {
           <input type="submit" name="submit" onClick={this.handleChange} />
         </form>
         <div className="Board-wrapper" style={{ width: 400, height: 400 }}>
-          <CanvasComponent />
+          <CanvasComponent roads={this.state.roads} />
         </div>
       </div>
     );
@@ -59,16 +60,11 @@ class CanvasComponent extends React.Component {
   constructor(props) {
     super(props);
     this.props = props;
-
-    this.initCanvas = this.initCanvas.bind(this);
-    this.updateCanvas = this.updateCanvas.bind(this);
-    this.drawSegment = this.drawSegment.bind(this);
   }
   
   componentDidMount() {
       this.canvas = this.refs.canvas.getContext('2d');
       this.initCanvas();
-      this.updateCanvas();
   }
 
   initCanvas() {
@@ -76,21 +72,22 @@ class CanvasComponent extends React.Component {
     this.canvas.strokeStyle = 'orange';
   }
 
-  drawSegment(coordinate) {
-    this.canvas.lineTo(coordinate.lat, coordinate.long);
-    this.canvas.moveTo(coordinate.lat, coordinate.long);
-    this.canvas.stroke();
-  }
+  updateCanvas(ctx, roads) {
+    if (!ctx || !roads) return;
+    console.log('updating...');
 
-  updateCanvas() {
-    const data = [{lat: 200, long: 300}, {lat: 0, long: 100}, {lat: 300, long: 150}, {lat: 300, long: 350}, {lat: 100, long: 350}];
-
-    for (let i = 0; i < data.length; i++) { 
-      this.drawSegment(data[i]);
-    }
+    roads.forEach((road) => {
+      const coordinates = [{ latitude: 50, longitude: 200 }, { latitude: 250, longitude: 200 }, { latitude: 250, longitude: 10 }, { latitude: 350, longitude: 10 }] || road.coordinates;
+      coordinates.forEach((c) => {
+        ctx.lineTo(c.latitude, c.longitude);
+        ctx.moveTo(c.latitude, c.longitude);
+        ctx.stroke();
+      });
+    });
   }
 
   render() {
+    this.updateCanvas(this.canvas, this.props.roads);
     return (
       <canvas className="Board" ref="canvas" width={400} height={400} />
     );
