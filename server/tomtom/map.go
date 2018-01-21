@@ -21,7 +21,7 @@ type API struct {
 
 func New() *API {
 	return &API{
-		key:    "TqUq1Sw7zST6k5BKAhOiLKPJGi8SsFkK",
+		key:    "O1bCwp4AfI64A6IRlALJnjMBGQnAJEYr",
 		secret: "ZXhPmCGz89fWxGSd",
 	}
 }
