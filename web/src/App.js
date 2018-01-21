@@ -77,7 +77,14 @@ class CanvasComponent extends React.Component {
     console.log('updating...');
 
     roads.forEach((road) => {
-      const coordinates = [{ latitude: 50, longitude: 200 }, { latitude: 250, longitude: 200 }, { latitude: 250, longitude: 10 }, { latitude: 350, longitude: 10 }] || road.coordinates;
+      const coordinates = [
+        { latitude: 50, longitude: 200 },
+        { latitude: 250, longitude: 200 },
+        { latitude: 250, longitude: 10 },
+        { latitude: 350, longitude: 10 },
+        { latitude: 350, longitude: 300 },
+        { latitude: 50, longitude: 300 }];
+  
       coordinates.forEach((c) => {
         ctx.lineTo(c.latitude, c.longitude);
         ctx.moveTo(c.latitude, c.longitude);
