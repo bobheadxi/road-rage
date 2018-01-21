@@ -56,7 +56,7 @@ func (s *Server) buildMap(lat float64, lon float64, radius float64, interval flo
 	center := tomtom.Coordinate{Latitude: lat, Longitude: lon}
 
 	var roads []road
-	lats, lons := generateGrid(center, radius, interval)
+	lats, lons := generateGrid(&center, radius, interval)
 	log.Println("Number of points: " + strconv.Itoa(len(lats)))
 	for i := 0; i < len(lats); i++ {
 		//log.Print(lats[i] + " " + lons[i])
@@ -68,8 +68,8 @@ func (s *Server) buildMap(lat float64, lon float64, radius float64, interval flo
 			continue
 		}
 		roads = append(roads, road{
-			Density:     8.16,
-			Coordinates: mapCoords(seg.Coordinates.Points, makeRelative, center),
+			Density:     calculateDensity(seg),
+			Coordinates: mapCoords(seg.Coordinates.Points, makeRelative, &center),
 		})
 	}
 

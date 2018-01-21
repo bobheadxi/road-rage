@@ -5,10 +5,10 @@ type tomTomResp struct {
 }
 
 type FlowSegmentData struct {
-	CurrentSpeed       int         `json:"currentSpeed"`
-	FreeFlowSpeed      int         `json:"freeFlowSpeed"`
-	CurrentTravelTime  int         `json:"currentTravelTime"`
-	FreeFlowTravelTime int         `json:"freeFlowTravelTime"`
+	CurrentSpeed       float64     `json:"currentSpeed"`
+	FreeFlowSpeed      float64     `json:"freeFlowSpeed"`
+	CurrentTravelTime  float64     `json:"currentTravelTime"`
+	FreeFlowTravelTime float64     `json:"freeFlowTravelTime"`
 	Confidence         float64     `json:"confidence"`
 	Coordinates        Coordinates `json:"coordinates"`
 }
