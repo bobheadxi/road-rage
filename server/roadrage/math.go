@@ -1,7 +1,6 @@
 package roadrage
 
 import (
-	"log"
 	"strconv"
 
 	"github.com/bobheadxi/road-rage/server/tomtom"
@@ -40,7 +39,5 @@ func generateGrid(center *tomtom.Coordinate, radius float64, interval float64) (
 }
 
 func calculateDensity(segment *tomtom.FlowSegmentData) float64 {
-	density := segment.FreeFlowTravelTime / segment.CurrentTravelTime
-	log.Print(strconv.FormatFloat(density, 'f', 6, 64))
-	return density
+	return segment.FreeFlowTravelTime / segment.CurrentTravelTime
 }
